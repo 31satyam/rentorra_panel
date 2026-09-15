@@ -421,13 +421,40 @@ class Command(BaseCommand):
             p_obj.amenities.set(selected_amenities)
 
             # Generate and attach 2-3 sample images if none exist
-            if p_obj.images.count() == 0:
-                for idx, (bg_col, label) in enumerate(photo_palettes[:3]):
-                    image_bytes = self.create_sample_image(
-                        f"{p_obj.get_bhk_display()} • {label}",
-                        bg_color=bg_col
+            # Generate/re-generate sample images when the database record
+            # exists but the actual file is missing from storage.
+            for idx, (bg_col, label) in enumerate(photo_palettes[:3]):
+                filename = f"property_{p_obj.pk}_img{idx}.jpg"
+
+                image_obj = p_obj.images.filter(display_order=idx).first()
+
+                # If DB record exists and physical file exists, keep it.
+                if image_obj and image_obj.image.name:
+                    try:
+                        if image_obj.image.storage.exists(image_obj.image.name):
+                            continue
+                    except Exception:
+                        pass
+
+                # Generate the image
+                image_bytes = self.create_sample_image(
+                    f"{p_obj.get_bhk_display()} • {label}",
+                    bg_color=bg_col
+                )
+
+                if image_obj:
+                    # DB record exists, but physical file is missing.
+                    image_obj.image.save(
+                        filename,
+                        ContentFile(image_bytes),
+                        save=True
                     )
-                    filename = f"property_{p_obj.pk}_img{idx}.jpg"
+                    image_obj.alt_text = f"{p_obj.title} - {label}"
+                    image_obj.display_order = idx
+                    image_obj.is_primary = (idx == 0)
+                    image_obj.save()
+                else:
+                    # No DB record, create a new one.
                     PropertyImage.objects.create(
                         property=p_obj,
                         image=ContentFile(image_bytes, name=filename),
