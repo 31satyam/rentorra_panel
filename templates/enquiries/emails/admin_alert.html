@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f8fafc; color: #1e293b; margin: 0; padding: 20px; }
+  .email-container { max-width: 600px; margin: 0 auto; background: #ffffff; border-radius: 8px; border: 1px solid #e2e8f0; overflow: hidden; }
+  .header { background-color: #0f172a; padding: 20px 25px; color: #ffffff; }
+  .header h2 { margin: 0; font-size: 20px; }
+  .badge { background-color: #0d9488; color: white; padding: 3px 8px; border-radius: 12px; font-size: 12px; font-weight: bold; }
+  .content { padding: 25px; }
+  .lead-table { width: 100%; border-collapse: collapse; margin: 15px 0; }
+  .lead-table td { padding: 9px 12px; border-bottom: 1px solid #f1f5f9; font-size: 14px; }
+  .lead-table td.label { width: 35%; color: #64748b; font-weight: 600; background-color: #f8fafc; }
+  .lead-table td.val { font-weight: 500; }
+  .footer { background: #f1f5f9; padding: 15px 25px; font-size: 12px; color: #64748b; text-align: center; }
+  .btn { display: inline-block; padding: 10px 18px; background: #0d9488; color: white; text-decoration: none; border-radius: 6px; font-weight: bold; font-size: 14px; margin-top: 15px; }
+</style>
+</head>
+<body>
+  <div class="email-container">
+    <div class="header">
+      <h2>Rentorra Lead Alert &bull; <span class="badge">NEW LEAD</span></h2>
+    </div>
+    <div class="content">
+      <p>A new customer requirement has been submitted on <strong>Rentorra</strong>:</p>
+
+      <table class="lead-table">
+        <tr>
+          <td class="label">Lead ID</td>
+          <td class="val">#{{ enquiry.id }}</td>
+        </tr>
+        <tr>
+          <td class="label">Customer Name</td>
+          <td class="val"><strong>{{ enquiry.name }}</strong></td>
+        </tr>
+        <tr>
+          <td class="label">Phone Number</td>
+          <td class="val"><strong><a href="tel:{{ enquiry.clean_phone }}">{{ enquiry.phone }}</a></strong></td>
+        </tr>
+        {% if enquiry.email %}
+        <tr>
+          <td class="label">Email</td>
+          <td class="val"><a href="mailto:{{ enquiry.email }}">{{ enquiry.email }}</a></td>
+        </tr>
+        {% endif %}
+        <tr>
+          <td class="label">City &amp; Area</td>
+          <td class="val">{{ enquiry.city }} {% if enquiry.preferred_area %}({{ enquiry.preferred_area }}){% endif %}</td>
+        </tr>
+        <tr>
+          <td class="label">Requirement / BHK</td>
+          <td class="val">{{ target_item }}</td>
+        </tr>
+        {% if enquiry.min_budget or enquiry.max_budget %}
+        <tr>
+          <td class="label">Budget Range</td>
+          <td class="val">₹{{ enquiry.min_budget|default:0 }} - ₹{{ enquiry.max_budget|default:0 }}</td>
+        </tr>
+        {% endif %}
+        <tr>
+          <td class="label">Lead Source</td>
+          <td class="val">{{ enquiry.source }} {% if enquiry.utm_campaign %}(Campaign: {{ enquiry.utm_campaign }}){% endif %}</td>
+        </tr>
+        {% if enquiry.message %}
+        <tr>
+          <td class="label">Customer Message</td>
+          <td class="val">{{ enquiry.message }}</td>
+        </tr>
+        {% endif %}
+      </table>
+
+      <a href="https://wa.me/{{ enquiry.clean_whatsapp }}" class="btn" style="background-color: #25d366;">
+        Chat with Customer on WhatsApp
+      </a>
+    </div>
+    <div class="footer">
+      This is an automated notification from Rentorra Lead Generation Engine.
+    </div>
+  </div>
+</body>
+</html>

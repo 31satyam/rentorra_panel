@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ meta_title }}{% endblock %}
+{% block meta_description %}{{ meta_description }}{% endblock %}
+
+{% block content %}
+<section class="bg-slate py-4 text-white">
+    <div class="container">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb mb-2 small">
+                <li class="breadcrumb-item"><a href="{% url 'home' %}" class="text-white-50 text-decoration-none">Home</a></li>
+                <li class="breadcrumb-item"><a href="{% url 'property_list' %}" class="text-white-50 text-decoration-none">Properties</a></li>
+                <li class="breadcrumb-item active text-white" aria-current="page">{{ location.area }}, {{ location.city }}</li>
+            </ol>
+        </nav>
+        <h1 class="h2 fw-bold text-white mb-1">Flats &amp; Apartments for Rent in {{ location.area }}, {{ location.city }}</h1>
+        <p class="text-light-muted small mb-0">{{ total_count }} verified listings available in this sector</p>
+    </div>
+</section>
+
+<section class="py-5 bg-light-surface">
+    <div class="container">
+        {% if location.description %}
+        <div class="card border-0 shadow-sm rounded-4 p-4 mb-4 bg-white">
+            <h2 class="h5 fw-bold text-navy mb-2">About Living in {{ location.area }}, {{ location.city }}</h2>
+            <p class="text-secondary mb-0">{{ location.description }}</p>
+        </div>
+        {% endif %}
+
+        <div class="row g-4">
+            {% for property in properties %}
+            <div class="col-md-6 col-lg-4">
+                {% include 'components/property_card.html' with property=property %}
+            </div>
+            {% empty %}
+            <div class="col-12 text-center py-5">
+                <div class="p-5 bg-white rounded-4 shadow-sm">
+                    <h3 class="h5 fw-bold text-navy mb-2">No active listings in this micro-market currently</h3>
+                    <p class="text-muted mb-4">Post your requirement and our neighborhood specialist will find options for you.</p>
+                    <a href="{% url 'find_property' %}?city={{ location.city }}&area={{ location.area }}" class="btn btn-teal rounded-pill px-4">
+                        Post Requirement for {{ location.area }}
+                    </a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        {% include 'components/pagination.html' %}
+    </div>
+</section>
+{% endblock %}

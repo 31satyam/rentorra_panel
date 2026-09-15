@@ -1,0 +1,262 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Sales &amp; Lead Dashboard | Rentorra Staff{% endblock %}
+
+{% block content %}
+<section class="bg-slate py-4 text-white">
+    <div class="container">
+        <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center">
+            <div>
+                <span class="badge bg-teal rounded-pill px-3 py-1 fw-bold mb-2">INTERNAL CRM</span>
+                <h1 class="h3 fw-bold text-white mb-1">Rentorra Lead &amp; Property Dashboard</h1>
+                <p class="text-light-muted small mb-0">Live marketing attribution and sales conversion pipeline</p>
+            </div>
+            <div class="mt-3 mt-md-0 d-flex gap-2">
+                <a href="/admin/enquiries/enquiry/" class="btn btn-sm btn-outline-light rounded-pill px-3">
+                    <i class="bi bi-gear-fill me-1"></i>Django Admin
+                </a>
+                <a href="/admin/properties/property/add/" class="btn btn-sm btn-teal rounded-pill px-3">
+                    <i class="bi bi-plus-circle me-1"></i>Add New Property
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="py-4 py-lg-5 bg-light-surface">
+    <div class="container">
+        <!-- Top KPI Metric Cards -->
+        <div class="row g-3 mb-4">
+            <!-- Total Properties -->
+            <div class="col-6 col-md-4 col-xl-2">
+                <div class="card border-0 shadow-sm rounded-4 p-3 bg-white h-100">
+                    <span class="small text-muted fw-semibold">Total Properties</span>
+                    <div class="d-flex align-items-center justify-content-between mt-2">
+                        <span class="fs-3 fw-extrabold text-navy">{{ total_properties }}</span>
+                        <i class="bi bi-building text-teal fs-4"></i>
+                    </div>
+                    <span class="small text-muted mt-1" style="font-size: 11px;">
+                        <span class="text-success fw-bold">{{ available_properties }}</span> Available &bull; {{ rented_properties }} Rented
+                    </span>
+                </div>
+            </div>
+
+            <!-- Total Enquiries -->
+            <div class="col-6 col-md-4 col-xl-2">
+                <div class="card border-0 shadow-sm rounded-4 p-3 bg-white h-100">
+                    <span class="small text-muted fw-semibold">Total Leads</span>
+                    <div class="d-flex align-items-center justify-content-between mt-2">
+                        <span class="fs-3 fw-extrabold text-navy">{{ total_enquiries }}</span>
+                        <i class="bi bi-people-fill text-primary fs-4"></i>
+                    </div>
+                    <span class="small text-muted mt-1" style="font-size: 11px;">Inbound inquiries</span>
+                </div>
+            </div>
+
+            <!-- New Leads -->
+            <div class="col-6 col-md-4 col-xl-2">
+                <div class="card border-0 shadow-sm rounded-4 p-3 bg-white h-100 border-start border-4 border-danger">
+                    <span class="small text-muted fw-semibold">New Leads</span>
+                    <div class="d-flex align-items-center justify-content-between mt-2">
+                        <span class="fs-3 fw-extrabold text-danger">{{ new_enquiries }}</span>
+                        <i class="bi bi-bell-fill text-danger fs-4"></i>
+                    </div>
+                    <span class="small text-danger fw-semibold mt-1" style="font-size: 11px;">Pending first contact</span>
+                </div>
+            </div>
+
+            <!-- Contacted Leads -->
+            <div class="col-6 col-md-4 col-xl-2">
+                <div class="card border-0 shadow-sm rounded-4 p-3 bg-white h-100 border-start border-4 border-warning">
+                    <span class="small text-muted fw-semibold">Contacted</span>
+                    <div class="d-flex align-items-center justify-content-between mt-2">
+                        <span class="fs-3 fw-extrabold text-warning-emphasis">{{ contacted_leads }}</span>
+                        <i class="bi bi-telephone-outbound text-warning fs-4"></i>
+                    </div>
+                    <span class="small text-muted mt-1" style="font-size: 11px;">In active outreach</span>
+                </div>
+            </div>
+
+            <!-- Visits Scheduled -->
+            <div class="col-6 col-md-4 col-xl-2">
+                <div class="card border-0 shadow-sm rounded-4 p-3 bg-white h-100 border-start border-4 border-info">
+                    <span class="small text-muted fw-semibold">Visits Set</span>
+                    <div class="d-flex align-items-center justify-content-between mt-2">
+                        <span class="fs-3 fw-extrabold text-info-emphasis">{{ visits_scheduled }}</span>
+                        <i class="bi bi-calendar-event text-info fs-4"></i>
+                    </div>
+                    <span class="small text-muted mt-1" style="font-size: 11px;">Physical visits</span>
+                </div>
+            </div>
+
+            <!-- Converted Deals -->
+            <div class="col-6 col-md-4 col-xl-2">
+                <div class="card border-0 shadow-sm rounded-4 p-3 bg-white h-100 border-start border-4 border-success">
+                    <span class="small text-muted fw-semibold">Converted</span>
+                    <div class="d-flex align-items-center justify-content-between mt-2">
+                        <span class="fs-3 fw-extrabold text-success">{{ converted_leads }}</span>
+                        <i class="bi bi-trophy-fill text-success fs-4"></i>
+                    </div>
+                    <span class="small text-success fw-semibold mt-1" style="font-size: 11px;">Closed deals</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="row g-4 mb-4">
+            <!-- Lead Sources Breakdown -->
+            <div class="col-lg-4">
+                <div class="card border-0 shadow-sm rounded-4 p-4 bg-white h-100">
+                    <h2 class="h5 fw-bold text-navy mb-3">
+                        <i class="bi bi-pie-chart-fill text-teal me-2"></i>Marketing Sources
+                    </h2>
+                    <p class="text-muted small mb-3">Traffic and campaign source performance</p>
+
+                    <div class="d-flex flex-column gap-3">
+                        {% for src in lead_sources %}
+                        <div>
+                            <div class="d-flex justify-content-between small fw-semibold mb-1">
+                                <span>{{ src.name }}</span>
+                                <span class="text-muted">{{ src.count }} leads ({{ src.percentage }}%)</span>
+                            </div>
+                            <div class="progress" style="height: 8px;">
+                                <div class="progress-bar bg-teal" role="progressbar" style="width: {{ src.percentage }}%;" aria-valuenow="{{ src.percentage }}" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                        </div>
+                        {% empty %}
+                        <p class="text-muted small">No source records logged yet.</p>
+                        {% endfor %}
+                    </div>
+
+                    <!-- Property Summary Box -->
+                    <div class="mt-4 pt-3 border-top">
+                        <h3 class="h6 fw-bold text-navy mb-2">Inventory Health</h3>
+                        <div class="d-flex justify-content-between small text-muted mb-1">
+                            <span>Available Properties:</span>
+                            <strong class="text-success">{{ available_properties }}</strong>
+                        </div>
+                        <div class="d-flex justify-content-between small text-muted mb-1">
+                            <span>Rented Properties:</span>
+                            <strong class="text-secondary">{{ rented_properties }}</strong>
+                        </div>
+                        <div class="d-flex justify-content-between small text-muted">
+                            <span>Featured Properties:</span>
+                            <strong class="text-amber">{{ featured_properties }}</strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Enquiries / Leads Action Table -->
+            <div class="col-lg-8">
+                <div class="card border-0 shadow-sm rounded-4 p-4 bg-white h-100">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h2 class="h5 fw-bold text-navy mb-0">
+                            <i class="bi bi-clock-history text-teal me-2"></i>Recent Inbound Leads
+                        </h2>
+                        <a href="/admin/enquiries/enquiry/" class="small text-teal fw-semibold text-decoration-none">
+                            View All in Admin &rarr;
+                        </a>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle small mb-0">
+                            <thead class="table-light text-muted">
+                                <tr>
+                                    <th>Lead / Contact</th>
+                                    <th>Requirement</th>
+                                    <th>City</th>
+                                    <th>Source</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for lead in recent_enquiries %}
+                                <tr>
+                                    <td>
+                                        <strong>{{ lead.name }}</strong>
+                                        <div class="text-muted font-monospace" style="font-size: 11px;">
+                                            <i class="bi bi-telephone"></i> {{ lead.phone }}
+                                        </div>
+                                    </td>
+                                    <td>
+                                        {% if lead.property %}
+                                        <a href="{{ lead.property.get_absolute_url }}" target="_blank" class="text-dark fw-semibold text-decoration-none">
+                                            {{ lead.property.title|truncatechars:22 }}
+                                        </a>
+                                        {% else %}
+                                        <span>{{ lead.bhk|default:"Requirement" }}</span>
+                                        {% endif %}
+                                        {% if lead.min_budget or lead.max_budget %}
+                                        <div class="text-muted" style="font-size: 11px;">₹{{ lead.min_budget|default:0 }} - ₹{{ lead.max_budget|default:0 }}</div>
+                                        {% endif %}
+                                    </td>
+                                    <td>{{ lead.city }}</td>
+                                    <td>
+                                        <span class="badge bg-light text-dark border">
+                                            {{ lead.source }}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        {% if lead.status == 'new' %}
+                                        <span class="badge bg-danger-subtle text-danger border border-danger-subtle">New Lead</span>
+                                        {% elif lead.status == 'contacted' %}
+                                        <span class="badge bg-warning-subtle text-warning-emphasis border border-warning-subtle">Contacted</span>
+                                        {% elif lead.status == 'interested' %}
+                                        <span class="badge bg-primary-subtle text-primary border border-primary-subtle">Interested</span>
+                                        {% elif lead.status == 'visit_scheduled' %}
+                                        <span class="badge bg-info-subtle text-info-emphasis border border-info-subtle">Visit Set</span>
+                                        {% elif lead.status == 'converted' %}
+                                        <span class="badge bg-success-subtle text-success border border-success-subtle">Converted</span>
+                                        {% else %}
+                                        <span class="badge bg-secondary-subtle text-secondary border border-secondary-subtle">{{ lead.get_status_display }}</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        <div class="btn-group btn-group-sm">
+                                            <a href="tel:{{ lead.clean_phone }}" class="btn btn-outline-primary" title="Call Lead">
+                                                <i class="bi bi-telephone-fill"></i>
+                                            </a>
+                                            <a href="{{ lead.wa_url }}" target="_blank" rel="noopener" class="btn btn-outline-success" title="WhatsApp Lead">
+                                                <i class="bi bi-whatsapp"></i>
+                                            </a>
+                                            <button type="button" class="btn btn-outline-secondary" data-bs-toggle="collapse" data-bs-target="#updateStatus_{{ lead.id }}" title="Change Status">
+                                                <i class="bi bi-pencil-square"></i>
+                                            </button>
+                                        </div>
+
+                                        <!-- Quick Status Update Dropdown Form -->
+                                        <div class="collapse position-absolute bg-white shadow-lg p-3 rounded-3 border mt-1 z-3" id="updateStatus_{{ lead.id }}" style="width: 250px;">
+                                            <form method="POST">
+                                                {% csrf_token %}
+                                                <input type="hidden" name="enquiry_id" value="{{ lead.id }}">
+                                                <label class="form-label small fw-bold">Update Lead Status</label>
+                                                <select name="new_status" class="form-select form-select-sm mb-2">
+                                                    {% for st_val, st_lbl in status_choices %}
+                                                    <option value="{{ st_val }}" {% if lead.status == st_val %}selected{% endif %}>{{ st_lbl }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                                <input type="text" name="admin_remark" class="form-control form-control-sm mb-2" placeholder="Add remark note...">
+                                                <div class="d-flex justify-content-end gap-1">
+                                                    <button type="button" class="btn btn-xs btn-light" data-bs-toggle="collapse" data-bs-target="#updateStatus_{{ lead.id }}">Cancel</button>
+                                                    <button type="submit" name="update_status" class="btn btn-xs btn-teal">Save</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </td>
+                                </tr>
+                                {% empty %}
+                                <tr>
+                                    <td colspan="6" class="text-center text-muted py-4">No enquiries recorded yet.</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

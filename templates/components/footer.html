@@ -1,0 +1,90 @@
+<footer class="rentorra-footer bg-slate-dark text-light pt-5 pb-4 mt-5">
+    <div class="container">
+        <div class="row g-4 mb-4">
+            <!-- Brand & Mission Column -->
+            <div class="col-lg-4 col-md-6">
+                <div class="d-flex align-items-center mb-3">
+                    <span class="brand-logo-icon bg-teal text-white me-2">
+                        <i class="bi bi-house-door-fill"></i>
+                    </span>
+                    <span class="brand-title text-white fs-3">Rentorra<span class="text-teal">.</span></span>
+                </div>
+                <p class="text-light-muted mb-4 pe-lg-4">
+                    Find your perfect rental home. Rentorra simplifies residential home leasing across top tech corridors and urban hubs with verified inventories and dedicated leasing specialists.
+                </p>
+                <div class="d-flex gap-2">
+                    <a href="https://facebook.com" target="_blank" rel="noopener" class="footer-social-btn" aria-label="Rentorra Facebook"><i class="bi bi-facebook"></i></a>
+                    <a href="https://instagram.com" target="_blank" rel="noopener" class="footer-social-btn" aria-label="Rentorra Instagram"><i class="bi bi-instagram"></i></a>
+                    <a href="https://linkedin.com" target="_blank" rel="noopener" class="footer-social-btn" aria-label="Rentorra LinkedIn"><i class="bi bi-linkedin"></i></a>
+                    <a href="https://wa.me/{{ WHATSAPP_LINK_NUMBER }}" target="_blank" rel="noopener" class="footer-social-btn" aria-label="Rentorra WhatsApp"><i class="bi bi-whatsapp"></i></a>
+                </div>
+            </div>
+
+            <!-- Quick Links Column -->
+            <div class="col-lg-2 col-md-6 col-6">
+                <h5 class="footer-heading text-white mb-3">Quick Links</h5>
+                <ul class="list-unstyled footer-links">
+                    <li><a href="{% url 'home' %}">Home</a></li>
+                    <li><a href="{% url 'property_list' %}">All Properties</a></li>
+                    <li><a href="{% url 'find_property' %}">Find a Property</a></li>
+                    <li><a href="{% url 'about' %}">About Us</a></li>
+                    <li><a href="{% url 'contact' %}">Contact Us</a></li>
+                </ul>
+            </div>
+
+            <!-- Property Types Column -->
+            <div class="col-lg-2 col-md-6 col-6">
+                <h5 class="footer-heading text-white mb-3">Property Types</h5>
+                <ul class="list-unstyled footer-links">
+                    <li><a href="{% url 'property_list' %}?bhk=1_bhk">1 BHK Flats</a></li>
+                    <li><a href="{% url 'property_list' %}?bhk=2_bhk">2 BHK Apartments</a></li>
+                    <li><a href="{% url 'property_list' %}?bhk=3_bhk">3 BHK Homes</a></li>
+                    <li><a href="{% url 'property_list' %}?bhk=4_bhk">4 BHK & Penthouses</a></li>
+                    <li><a href="{% url 'property_list' %}?furnishing=fully_furnished">Furnished Flats</a></li>
+                </ul>
+            </div>
+
+            <!-- Contact Information Column -->
+            <div class="col-lg-4 col-md-6">
+                <h5 class="footer-heading text-white mb-3">Contact Information</h5>
+                <ul class="list-unstyled footer-contact-info">
+                    <li class="d-flex align-items-start mb-2">
+                        <i class="bi bi-geo-alt-fill text-teal me-2 mt-1"></i>
+                        <span>{{ COMPANY_ADDRESS }}</span>
+                    </li>
+                    <li class="d-flex align-items-center mb-2">
+                        <i class="bi bi-telephone-fill text-teal me-2"></i>
+                        <a href="tel:{{ COMPANY_PHONE_TEL }}" class="text-white text-decoration-none">{{ COMPANY_PHONE }}</a>
+                    </li>
+                    <li class="d-flex align-items-center mb-2">
+                        <i class="bi bi-whatsapp text-success me-2"></i>
+                        <a href="https://wa.me/{{ WHATSAPP_LINK_NUMBER }}" target="_blank" rel="noopener" class="text-white text-decoration-none">{{ WHATSAPP_NUMBER }}</a>
+                    </li>
+                    <li class="d-flex align-items-center mb-3">
+                        <i class="bi bi-envelope-fill text-teal me-2"></i>
+                        <a href="mailto:{{ COMPANY_EMAIL }}" class="text-white text-decoration-none">{{ COMPANY_EMAIL }}</a>
+                    </li>
+                </ul>
+                <div class="p-3 bg-slate-card rounded-3 border border-secondary border-opacity-25">
+                    <span class="small text-light-muted d-block mb-1">Looking for immediate move-in?</span>
+                    <a href="{% url 'find_property' %}" class="btn btn-sm btn-teal w-100 rounded-pill">
+                        Submit Your Requirement
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <hr class="border-secondary border-opacity-25 my-4">
+
+        <!-- Copyright & Legal -->
+        <div class="row align-items-center text-light-muted small">
+            <div class="col-md-6 text-center text-md-start mb-2 mb-md-0">
+                &copy; {{ CURRENT_YEAR }} {{ COMPANY_NAME }}. All Rights Reserved.
+            </div>
+            <div class="col-md-6 text-center text-md-end">
+                <a href="{% url 'privacy' %}" class="text-light-muted text-decoration-none me-3">Privacy Policy</a>
+                <a href="{% url 'terms' %}" class="text-light-muted text-decoration-none">Terms &amp; Conditions</a>
+            </div>
+        </div>
+    </div>
+</footer>

@@ -1,0 +1,423 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<!-- Section 2: Hero Section with Background Glow and Branding -->
+<section class="hero-section position-relative py-5 py-lg-6 text-white overflow-hidden">
+    <div class="hero-bg-overlay"></div>
+    <div class="container position-relative z-1 py-4">
+        <div class="row align-items-center justify-content-center text-center">
+            <div class="col-lg-10 col-xl-9">
+                <!-- Trust Badge -->
+                <div class="d-inline-flex align-items-center gap-2 px-3 py-1 mb-3 rounded-pill bg-white bg-opacity-10 border border-white border-opacity-20 backdrop-blur">
+                    <span class="badge bg-teal rounded-pill text-white fw-bold">100% VERIFIED</span>
+                    <span class="small text-light">Zero Brokerage Hassle &bull; Direct Specialist Support</span>
+                </div>
+
+                <!-- Main Hero Headings -->
+                <h1 class="display-4 fw-extrabold mb-3 tracking-tight">
+                    Find Your Perfect <span class="text-gradient-teal">Rental Home</span>
+                </h1>
+                <p class="lead text-light-muted mb-4 fs-5 mx-auto" style="max-width: 650px;">
+                    Rentorra curates verified 1, 2, 3, and 4 BHK flats, apartments, and builder floors across premier neighborhoods with guaranteed landlord verification.
+                </p>
+
+                <!-- Hero Action Buttons -->
+                <div class="d-flex flex-wrap justify-content-center gap-3 mb-5">
+                    <a href="{% url 'find_property' %}" class="btn btn-teal btn-lg rounded-pill px-4 shadow-lg fw-bold">
+                        <i class="bi bi-clipboard2-check me-2"></i>Find a Property
+                    </a>
+                    <a href="{% url 'property_list' %}" class="btn btn-outline-light btn-lg rounded-pill px-4 fw-semibold">
+                        <i class="bi bi-houses me-2"></i>View Properties
+                    </a>
+                </div>
+
+                <!-- Section 3: Property Search / Requirement Quick Bar -->
+                <div class="card search-box-card rounded-4 border-0 shadow-2xl text-dark p-3 p-md-4 text-start">
+                    <form action="{% url 'property_list' %}" method="GET" class="row g-3 align-items-end">
+                        <!-- City Dropdown -->
+                        <div class="col-md-3 col-6">
+                            <label class="form-label small fw-bold text-muted mb-1">
+                                <i class="bi bi-geo-alt-fill text-teal me-1"></i>Select City
+                            </label>
+                            <select name="city" class="form-select border-light-subtle rounded-3">
+                                <option value="">All Cities</option>
+                                {% for c in available_cities %}
+                                <option value="{{ c }}">{{ c }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <!-- BHK Choice -->
+                        <div class="col-md-3 col-6">
+                            <label class="form-label small fw-bold text-muted mb-1">
+                                <i class="bi bi-door-open-fill text-teal me-1"></i>BHK Type
+                            </label>
+                            <select name="bhk" class="form-select border-light-subtle rounded-3">
+                                <option value="">Any BHK</option>
+                                {% for code, label in bhk_choices %}
+                                <option value="{{ code }}">{{ label }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <!-- Budget Range -->
+                        <div class="col-md-4 col-12">
+                            <label class="form-label small fw-bold text-muted mb-1">
+                                <i class="bi bi-currency-rupee text-teal me-1"></i>Max Budget
+                            </label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light border-light-subtle text-muted">₹</span>
+                                <input type="number" name="max_rent" class="form-control border-light-subtle" placeholder="e.g. 35000" step="1000">
+                            </div>
+                        </div>
+
+                        <!-- Search CTA -->
+                        <div class="col-md-2 col-12">
+                            <button type="submit" class="btn btn-teal w-100 rounded-3 py-2 fw-bold shadow-sm">
+                                <i class="bi bi-search me-1"></i> Search
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Active Promotional Ad Banner (if configured) -->
+{% if banner_ad %}
+<section class="container my-4">
+    <a href="{% url 'ad_click' banner_ad.id %}" class="d-block text-decoration-none rounded-4 overflow-hidden shadow-sm border">
+        <img src="{{ banner_ad.image.url }}" alt="{{ banner_ad.title }}" class="img-fluid w-100" style="max-height: 180px; object-fit: cover;">
+    </a>
+</section>
+{% endif %}
+
+<!-- Quick Stats Bar -->
+<section class="bg-white py-4 border-bottom shadow-xs">
+    <div class="container">
+        <div class="row text-center g-3">
+            <div class="col-6 col-md-3">
+                <div class="fs-2 fw-extrabold text-navy">100%</div>
+                <div class="small text-muted fw-semibold">Verified Properties</div>
+            </div>
+            <div class="col-6 col-md-3">
+                <div class="fs-2 fw-extrabold text-teal">₹0</div>
+                <div class="small text-muted fw-semibold">Hidden Charges</div>
+            </div>
+            <div class="col-6 col-md-3">
+                <div class="fs-2 fw-extrabold text-navy">15 Mins</div>
+                <div class="small text-muted fw-semibold">Average Response Time</div>
+            </div>
+            <div class="col-6 col-md-3">
+                <div class="fs-2 fw-extrabold text-teal">5,000+</div>
+                <div class="small text-muted fw-semibold">Happy Tenants Assisted</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Section 4: Featured Properties -->
+<section class="py-5 bg-light-surface">
+    <div class="container">
+        <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-end mb-4">
+            <div>
+                <span class="badge bg-teal-subtle text-teal fw-bold px-3 py-1 rounded-pill mb-2">HANDPICKED HOMES</span>
+                <h2 class="h2 fw-bold text-navy mb-1">Featured Rental Properties</h2>
+                <p class="text-muted mb-0">Explore our most popular premium homes available for immediate occupancy.</p>
+            </div>
+            <a href="{% url 'property_list' %}" class="btn btn-outline-teal rounded-pill px-4 mt-3 mt-md-0 fw-semibold align-self-start align-self-md-auto">
+                Explore All <i class="bi bi-arrow-right ms-1"></i>
+            </a>
+        </div>
+
+        <div class="row g-4">
+            {% for property in featured_properties %}
+            <div class="col-md-6 col-lg-4">
+                {% include 'components/property_card.html' with property=property %}
+            </div>
+            {% empty %}
+            <div class="col-12 text-center py-5">
+                <p class="text-muted">No featured properties available at the moment.</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Section 5: Why Choose Rentorra -->
+<section class="py-5 bg-white">
+    <div class="container py-2">
+        <div class="text-center max-w-700 mx-auto mb-5">
+            <span class="badge bg-teal-subtle text-teal fw-bold px-3 py-1 rounded-pill mb-2">THE RENTORRA ADVANTAGE</span>
+            <h2 class="h2 fw-bold text-navy">Why Tenants Trust Rentorra</h2>
+            <p class="text-muted">We remove the chaos, fake listings, and high-pressure middlemen from urban home leasing.</p>
+        </div>
+
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="card h-100 border-0 p-4 rounded-4 shadow-sm bg-light-surface feature-card text-center">
+                    <div class="feature-icon-wrapper bg-teal-subtle text-teal mx-auto mb-3">
+                        <i class="bi bi-patch-check-fill fs-2"></i>
+                    </div>
+                    <h3 class="h5 fw-bold text-navy mb-2">Physically Verified Homes</h3>
+                    <p class="text-muted small mb-0">
+                        Every property listed on Rentorra is verified for authenticity, actual floor plans, maintenance condition, and landlord credentials.
+                    </p>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card h-100 border-0 p-4 rounded-4 shadow-sm bg-light-surface feature-card text-center">
+                    <div class="feature-icon-wrapper bg-blue-subtle text-primary mx-auto mb-3">
+                        <i class="bi bi-headset fs-2"></i>
+                    </div>
+                    <h3 class="h5 fw-bold text-navy mb-2">Dedicated Rental Specialist</h3>
+                    <p class="text-muted small mb-0">
+                        Enjoy single-point-of-contact support. Our local neighborhood experts schedule site visits and negotiate fair market rents on your behalf.
+                    </p>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card h-100 border-0 p-4 rounded-4 shadow-sm bg-light-surface feature-card text-center">
+                    <div class="feature-icon-wrapper bg-green-subtle text-success mx-auto mb-3">
+                        <i class="bi bi-lightning-charge-fill fs-2"></i>
+                    </div>
+                    <h3 class="h5 fw-bold text-navy mb-2">Zero Hassle Move-In</h3>
+                    <p class="text-muted small mb-0">
+                        From instant WhatsApp video tours to key handover assistance, Rentorra ensures a transparent, seamless transition into your new home.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Section 6: How Rentorra Works -->
+<section class="py-5 bg-light-surface">
+    <div class="container py-2">
+        <div class="text-center max-w-700 mx-auto mb-5">
+            <span class="badge bg-teal-subtle text-teal fw-bold px-3 py-1 rounded-pill mb-2">SIMPLE 3-STEP JOURNEY</span>
+            <h2 class="h2 fw-bold text-navy">How Rentorra Works</h2>
+            <p class="text-muted">From discovery to stepping into your living room in three easy steps.</p>
+        </div>
+
+        <div class="row g-4 text-center">
+            <div class="col-md-4 position-relative">
+                <div class="p-4 bg-white rounded-4 shadow-sm h-100">
+                    <div class="step-badge rounded-circle bg-navy text-white mx-auto mb-3 fw-bold fs-4">1</div>
+                    <h3 class="h5 fw-bold text-navy mb-2">Discover &amp; Enquire</h3>
+                    <p class="text-muted small mb-0">
+                        Browse verified properties or submit your custom requirement form. Connect directly through WhatsApp or phone call.
+                    </p>
+                </div>
+            </div>
+
+            <div class="col-md-4 position-relative">
+                <div class="p-4 bg-white rounded-4 shadow-sm h-100">
+                    <div class="step-badge rounded-circle bg-teal text-white mx-auto mb-3 fw-bold fs-4">2</div>
+                    <h3 class="h5 fw-bold text-navy mb-2">Guided Site Visits</h3>
+                    <p class="text-muted small mb-0">
+                        Our neighborhood leasing executive arranges physical visits at your preferred time slot, answering every query transparently.
+                    </p>
+                </div>
+            </div>
+
+            <div class="col-md-4 position-relative">
+                <div class="p-4 bg-white rounded-4 shadow-sm h-100">
+                    <div class="step-badge rounded-circle bg-navy text-white mx-auto mb-3 fw-bold fs-4">3</div>
+                    <h3 class="h5 fw-bold text-navy mb-2">Move Into Your Dream Home</h3>
+                    <p class="text-muted small mb-0">
+                        Finalize terms with verified property owners with zero confusion. Collect your keys and move in with peace of mind.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Section 7: Popular Locations -->
+<section class="py-5 bg-white">
+    <div class="container py-2">
+        <div class="text-center max-w-700 mx-auto mb-5">
+            <span class="badge bg-teal-subtle text-teal fw-bold px-3 py-1 rounded-pill mb-2">PRIME MICRO-MARKETS</span>
+            <h2 class="h2 fw-bold text-navy">Popular Rental Hubs</h2>
+            <p class="text-muted">Explore high-demand residential sectors close to IT parks, metros, and top schools.</p>
+        </div>
+
+        <div class="row g-3 g-md-4">
+            {% for loc in popular_locations %}
+            <div class="col-6 col-md-4 col-lg-3">
+                <a href="{% url 'property_list' %}?city={{ loc.city }}&area={{ loc.area }}" 
+                   class="card location-card h-100 border text-decoration-none rounded-4 p-3 shadow-xs hover-lift transition">
+                    <div class="d-flex align-items-center">
+                        <div class="location-icon bg-teal-subtle text-teal rounded-3 p-2 me-3">
+                            <i class="bi bi-geo-alt fs-4"></i>
+                        </div>
+                        <div>
+                            <h3 class="h6 fw-bold text-navy mb-0">{{ loc.area }}</h3>
+                            <span class="small text-muted">{{ loc.city }}</span>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Section 8: Property Categories -->
+<section class="py-5 bg-light-surface">
+    <div class="container py-2">
+        <div class="text-center max-w-700 mx-auto mb-5">
+            <span class="badge bg-teal-subtle text-teal fw-bold px-3 py-1 rounded-pill mb-2">TAILORED CHOICES</span>
+            <h2 class="h2 fw-bold text-navy">Browse by BHK &amp; Layout</h2>
+            <p class="text-muted">Find the configuration tailored for your family size, workspace, and lifestyle.</p>
+        </div>
+
+        <div class="row g-4">
+            <div class="col-6 col-md-3">
+                <a href="{% url 'property_list' %}?bhk=1_bhk" class="card category-card text-decoration-none border-0 shadow-sm rounded-4 p-4 text-center bg-white hover-lift">
+                    <div class="cat-icon text-teal mb-3 fs-1"><i class="bi bi-door-open"></i></div>
+                    <h3 class="h5 fw-bold text-navy mb-1">1 BHK Flats</h3>
+                    <span class="text-muted small">For Singles &amp; Couples</span>
+                </a>
+            </div>
+            <div class="col-6 col-md-3">
+                <a href="{% url 'property_list' %}?bhk=2_bhk" class="card category-card text-decoration-none border-0 shadow-sm rounded-4 p-4 text-center bg-white hover-lift">
+                    <div class="cat-icon text-teal mb-3 fs-1"><i class="bi bi-houses"></i></div>
+                    <h3 class="h5 fw-bold text-navy mb-1">2 BHK Flats</h3>
+                    <span class="text-muted small">Most Popular Family Size</span>
+                </a>
+            </div>
+            <div class="col-6 col-md-3">
+                <a href="{% url 'property_list' %}?bhk=3_bhk" class="card category-card text-decoration-none border-0 shadow-sm rounded-4 p-4 text-center bg-white hover-lift">
+                    <div class="cat-icon text-teal mb-3 fs-1"><i class="bi bi-building"></i></div>
+                    <h3 class="h5 fw-bold text-navy mb-1">3 BHK Homes</h3>
+                    <span class="text-muted small">Spacious Living &amp; Work</span>
+                </a>
+            </div>
+            <div class="col-6 col-md-3">
+                <a href="{% url 'property_list' %}?bhk=4_bhk" class="card category-card text-decoration-none border-0 shadow-sm rounded-4 p-4 text-center bg-white hover-lift">
+                    <div class="cat-icon text-teal mb-3 fs-1"><i class="bi bi-gem"></i></div>
+                    <h3 class="h5 fw-bold text-navy mb-1">4 BHK &amp; Villas</h3>
+                    <span class="text-muted small">Luxury Penthouses</span>
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Section 9: Call-to-Action Requirement Section -->
+<section class="py-5 bg-navy text-white position-relative overflow-hidden">
+    <div class="container py-3">
+        <div class="row align-items-center justify-content-between g-4">
+            <div class="col-lg-7">
+                <span class="badge bg-teal rounded-pill text-white fw-bold px-3 py-1 mb-3">CUSTOM HOME HUNTING</span>
+                <h2 class="display-6 fw-bold mb-3">Can't Find Your Exact Requirement?</h2>
+                <p class="text-light-muted fs-5 mb-4">
+                    Share your preferred society, budget range, and move-in timeline. Our property leasing experts will scour offline verified inventories and arrange matched options for you.
+                </p>
+                <div class="d-flex flex-wrap gap-3">
+                    <a href="{% url 'find_property' %}" class="btn btn-teal btn-lg rounded-pill px-4 shadow fw-bold">
+                        <i class="bi bi-clipboard2-check me-2"></i>Submit Requirement Now
+                    </a>
+                    <a href="https://wa.me/{{ WHATSAPP_LINK_NUMBER }}?text=Hello%20Rentorra,%20I%20have%20a%20custom%20rental%20requirement." 
+                       target="_blank" 
+                       rel="noopener"
+                       class="btn btn-outline-light btn-lg rounded-pill px-4 fw-semibold">
+                        <i class="bi bi-whatsapp text-success me-2"></i>WhatsApp Requirement
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-4 text-center text-lg-end">
+                <div class="card bg-white bg-opacity-10 border border-white border-opacity-20 p-4 rounded-4 backdrop-blur text-white text-start">
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="bg-teal p-3 rounded-circle me-3 text-white">
+                            <i class="bi bi-telephone-inbound-fill fs-4"></i>
+                        </div>
+                        <div>
+                            <span class="small text-white-50 d-block">Direct Leasing Desk</span>
+                            <a href="tel:{{ COMPANY_PHONE_TEL }}" class="text-white fs-5 fw-bold text-decoration-none">
+                                {{ COMPANY_PHONE }}
+                            </a>
+                        </div>
+                    </div>
+                    <p class="small text-light-muted mb-0">
+                        Available Mon – Sat, 9:30 AM – 8:00 PM. Instant callbacks for active rental queries.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Section 10: Testimonials Placeholder -->
+<section class="py-5 bg-white">
+    <div class="container py-2">
+        <div class="text-center max-w-700 mx-auto mb-5">
+            <span class="badge bg-teal-subtle text-teal fw-bold px-3 py-1 rounded-pill mb-2">TENANT EXPERIENCES</span>
+            <h2 class="h2 fw-bold text-navy">What Our Tenants Say</h2>
+            <p class="text-muted">Real reviews from professionals and families who found their homes through Rentorra.</p>
+        </div>
+
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="card h-100 border-0 p-4 rounded-4 shadow-sm bg-light-surface text-start">
+                    <div class="text-warning mb-3 fs-5">
+                        <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+                    </div>
+                    <p class="text-muted small mb-4">
+                        "Finding a gated 2 BHK in Noida Sector 62 used to be a nightmare of fake broker ads. Rentorra matched me with a verified flat and arranged visit within 2 hours. Moved in that weekend!"
+                    </p>
+                    <div class="d-flex align-items-center mt-auto">
+                        <div class="avatar bg-teal text-white rounded-circle p-2 me-3 fw-bold">AR</div>
+                        <div>
+                            <h4 class="h6 fw-bold mb-0 text-navy">Amitabh Rawat</h4>
+                            <span class="text-muted small">Software Engineer, Noida</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card h-100 border-0 p-4 rounded-4 shadow-sm bg-light-surface text-start">
+                    <div class="text-warning mb-3 fs-5">
+                        <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+                    </div>
+                    <p class="text-muted small mb-4">
+                        "The WhatsApp coordination was stellar. We were relocating from Pune to Gurugram and got comprehensive video walkthroughs and accurate society details before even landing in Delhi."
+                    </p>
+                    <div class="d-flex align-items-center mt-auto">
+                        <div class="avatar bg-navy text-white rounded-circle p-2 me-3 fw-bold">SK</div>
+                        <div>
+                            <h4 class="h6 fw-bold mb-0 text-navy">Shalini &amp; Kunal</h4>
+                            <span class="text-muted small">Consultants, Gurugram</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card h-100 border-0 p-4 rounded-4 shadow-sm bg-light-surface text-start">
+                    <div class="text-warning mb-3 fs-5">
+                        <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+                    </div>
+                    <p class="text-muted small mb-4">
+                        "Very transparent team. No unnecessary visits to homes that didn't match our pet-friendly requirements. Truly professional service compared to regular brokers."
+                    </p>
+                    <div class="d-flex align-items-center mt-auto">
+                        <div class="avatar bg-teal text-white rounded-circle p-2 me-3 fw-bold">TN</div>
+                        <div>
+                            <h4 class="h6 fw-bold mb-0 text-navy">Tanvi Nair</h4>
+                            <span class="text-muted small">Product Designer, Bengaluru</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

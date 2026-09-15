@@ -1,0 +1,176 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ meta_title }}{% endblock %}
+{% block meta_description %}{{ meta_description }}{% endblock %}
+
+{% block content %}
+<!-- Breadcrumb & Header Banner -->
+<section class="bg-slate py-4 text-white">
+    <div class="container">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb mb-2 small">
+                <li class="breadcrumb-item"><a href="{% url 'home' %}" class="text-white-50 text-decoration-none">Home</a></li>
+                <li class="breadcrumb-item active text-white" aria-current="page">Properties</li>
+            </ol>
+        </nav>
+        <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center">
+            <div>
+                <h1 class="h2 fw-bold text-white mb-1">Rental Properties &amp; Flats</h1>
+                <p class="text-light-muted small mb-0">Showing {{ total_count }} verified homes available for rent</p>
+            </div>
+            <a href="{% url 'find_property' %}" class="btn btn-teal rounded-pill px-4 mt-3 mt-md-0 align-self-start align-self-md-auto">
+                <i class="bi bi-clipboard2-check me-1"></i>Post Your Requirement
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Active Listing Banner Ad -->
+{% if listing_ad %}
+<section class="container mt-4">
+    <a href="{% url 'ad_click' listing_ad.id %}" class="d-block text-decoration-none rounded-4 overflow-hidden shadow-xs border">
+        <img src="{{ listing_ad.image.url }}" alt="{{ listing_ad.title }}" class="img-fluid w-100" style="max-height: 140px; object-fit: cover;">
+    </a>
+</section>
+{% endif %}
+
+<!-- Properties Catalog Layout -->
+<section class="py-4 py-lg-5 bg-light-surface">
+    <div class="container">
+        <div class="row g-4">
+            <!-- Left Sidebar Filter Form -->
+            <aside class="col-lg-3">
+                <div class="card border-0 shadow-sm rounded-4 p-3 p-md-4 sticky-top" style="top: 90px; z-index: 10;">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h2 class="h5 fw-bold text-navy mb-0">
+                            <i class="bi bi-sliders text-teal me-1"></i>Filters
+                        </h2>
+                        <a href="{% url 'property_list' %}" class="small text-muted text-decoration-none">Reset All</a>
+                    </div>
+
+                    <form action="{% url 'property_list' %}" method="GET" id="filterForm">
+                        <!-- Search Keyword -->
+                        <div class="mb-3">
+                            <label class="form-label small fw-bold text-muted">Keyword</label>
+                            <input type="text" name="q" value="{{ search_query }}" class="form-control form-control-sm rounded-3" placeholder="Society, landmark, sector...">
+                        </div>
+
+                        <!-- City -->
+                        <div class="mb-3">
+                            <label class="form-label small fw-bold text-muted">City</label>
+                            <select name="city" class="form-select form-select-sm rounded-3">
+                                <option value="">All Cities</option>
+                                {% for c in available_cities %}
+                                <option value="{{ c }}" {% if selected_city == c %}selected{% endif %}>{{ c }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <!-- Area / Sector -->
+                        <div class="mb-3">
+                            <label class="form-label small fw-bold text-muted">Area / Sector</label>
+                            <input type="text" name="area" value="{{ selected_area }}" class="form-control form-control-sm rounded-3" placeholder="e.g. Sector 62, Whitefield">
+                        </div>
+
+                        <!-- BHK -->
+                        <div class="mb-3">
+                            <label class="form-label small fw-bold text-muted">BHK Configuration</label>
+                            <select name="bhk" class="form-select form-select-sm rounded-3">
+                                <option value="">Any BHK</option>
+                                {% for code, label in bhk_choices %}
+                                <option value="{{ code }}" {% if selected_bhk == code %}selected{% endif %}>{{ label }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <!-- Property Type -->
+                        <div class="mb-3">
+                            <label class="form-label small fw-bold text-muted">Property Type</label>
+                            <select name="property_type" class="form-select form-select-sm rounded-3">
+                                <option value="">All Types</option>
+                                {% for code, label in property_types %}
+                                <option value="{{ code }}" {% if selected_type == code %}selected{% endif %}>{{ label }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <!-- Rent Budget Min/Max -->
+                        <div class="mb-3">
+                            <label class="form-label small fw-bold text-muted">Monthly Budget (₹)</label>
+                            <div class="row g-2">
+                                <div class="col-6">
+                                    <input type="number" name="min_rent" value="{{ selected_min_rent }}" class="form-control form-control-sm" placeholder="Min" step="1000">
+                                </div>
+                                <div class="col-6">
+                                    <input type="number" name="max_rent" value="{{ selected_max_rent }}" class="form-control form-control-sm" placeholder="Max" step="1000">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Furnishing -->
+                        <div class="mb-3">
+                            <label class="form-label small fw-bold text-muted">Furnishing</label>
+                            <select name="furnishing" class="form-select form-select-sm rounded-3">
+                                <option value="">Any Furnishing</option>
+                                {% for code, label in furnishing_choices %}
+                                <option value="{{ code }}" {% if selected_furnishing == code %}selected{% endif %}>{{ label }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <!-- Apply Button -->
+                        <button type="submit" class="btn btn-teal btn-sm w-100 rounded-pill fw-bold py-2 mt-2 shadow-sm">
+                            <i class="bi bi-funnel-fill me-1"></i>Apply Filters
+                        </button>
+                    </form>
+                </div>
+            </aside>
+
+            <!-- Right Main Listings Grid -->
+            <main class="col-lg-9">
+                <!-- Sorting & View Controls -->
+                <div class="d-flex flex-column flex-sm-row justify-content-between align-items-sm-center bg-white p-3 rounded-4 shadow-xs mb-4">
+                    <div class="small text-muted mb-2 mb-sm-0">
+                        Showing <strong>{{ properties.start_index }}–{{ properties.end_index }}</strong> of <strong>{{ total_count }}</strong> properties
+                    </div>
+
+                    <div class="d-flex align-items-center gap-2">
+                        <label class="small text-muted fw-semibold text-nowrap">Sort By:</label>
+                        <select class="form-select form-select-sm rounded-3" style="width: auto;" onchange="location = this.value;">
+                            <option value="?{% if querystring %}{{ querystring }}&{% endif %}sort=featured" {% if selected_sort == 'featured' %}selected{% endif %}>Featured First</option>
+                            <option value="?{% if querystring %}{{ querystring }}&{% endif %}sort=rent_asc" {% if selected_sort == 'rent_asc' %}selected{% endif %}>Rent: Low to High</option>
+                            <option value="?{% if querystring %}{{ querystring }}&{% endif %}sort=rent_desc" {% if selected_sort == 'rent_desc' %}selected{% endif %}>Rent: High to Low</option>
+                            <option value="?{% if querystring %}{{ querystring }}&{% endif %}sort=newest" {% if selected_sort == 'newest' %}selected{% endif %}>Recently Added</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Properties Grid -->
+                <div class="row g-4">
+                    {% for property in properties %}
+                    <div class="col-md-6 col-xl-4">
+                        {% include 'components/property_card.html' with property=property %}
+                    </div>
+                    {% empty %}
+                    <div class="col-12 text-center py-5">
+                        <div class="p-5 bg-white rounded-4 shadow-sm">
+                            <i class="bi bi-search fs-1 text-teal mb-3 d-block"></i>
+                            <h3 class="h4 fw-bold text-navy mb-2">No matching properties found</h3>
+                            <p class="text-muted mb-4">Try broadening your search filters, or tell us what you are looking for.</p>
+                            <div class="d-flex justify-content-center gap-2">
+                                <a href="{% url 'property_list' %}" class="btn btn-outline-teal rounded-pill px-4">Reset Filters</a>
+                                <a href="{% url 'find_property' %}" class="btn btn-teal rounded-pill px-4">Post Requirement</a>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+
+                <!-- Pagination -->
+                {% include 'components/pagination.html' %}
+            </main>
+        </div>
+    </div>
+</section>
+{% endblock %}

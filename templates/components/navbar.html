@@ -1,0 +1,75 @@
+{% load static %}
+<header class="sticky-top bg-white border-bottom shadow-sm rentorra-navbar-wrapper">
+    <nav class="navbar navbar-expand-lg navbar-light py-2 py-lg-3">
+        <div class="container">
+            <!-- Brand Logo Treatment -->
+            <a class="navbar-brand d-flex align-items-center me-4" href="{% url 'home' %}">
+                <span class="brand-logo-icon me-2">
+                    <i class="bi bi-house-door-fill"></i>
+                </span>
+                <span class="brand-title">Rentorra<span class="text-teal">.</span></span>
+            </a>
+
+            <!-- Mobile Quick Actions & Hamburger Toggle -->
+            <div class="d-flex align-items-center d-lg-none gap-2">
+                <a href="tel:{{ COMPANY_PHONE_TEL }}" class="btn btn-sm btn-outline-teal rounded-pill px-3" title="Call Rentorra">
+                    <i class="bi bi-telephone-fill"></i>
+                </a>
+                <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarRentorra" aria-controls="navbarRentorra" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+            </div>
+
+            <!-- Navbar Links -->
+            <div class="collapse navbar-collapse" id="navbarRentorra">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0 gap-lg-2">
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.path == '/' %}active{% endif %}" href="{% url 'home' %}">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if '/properties/' in request.path and 'find-property' not in request.path %}active{% endif %}" href="{% url 'property_list' %}">Properties</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if 'find-property' in request.path %}active{% endif %}" href="{% url 'find_property' %}">
+                            <i class="bi bi-search-heart text-teal me-1"></i>Find Property
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if '/about/' in request.path %}active{% endif %}" href="{% url 'about' %}">About Us</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if '/contact/' in request.path %}active{% endif %}" href="{% url 'contact' %}">Contact</a>
+                    </li>
+                </ul>
+
+                <!-- Desktop CTA & Direct Reach -->
+                <div class="d-flex align-items-center gap-3">
+                    <div class="d-none d-xl-flex flex-column text-end">
+                        <span class="text-muted small">Need assistance?</span>
+                        <a href="tel:{{ COMPANY_PHONE_TEL }}" class="text-dark fw-bold text-decoration-none small">
+                            <i class="bi bi-telephone-fill text-teal me-1"></i>{{ COMPANY_PHONE }}
+                        </a>
+                    </div>
+                    
+                    <a href="https://wa.me/{{ WHATSAPP_LINK_NUMBER }}?text=Hello%20Rentorra,%20I%20am%20looking%20for%20a%20rental%20flat." 
+                       target="_blank" 
+                       rel="noopener"
+                       class="btn btn-outline-success d-none d-sm-inline-flex align-items-center gap-1 rounded-pill px-3">
+                        <i class="bi bi-whatsapp"></i>
+                        <span>WhatsApp</span>
+                    </a>
+
+                    <a href="{% url 'find_property' %}" class="btn btn-teal rounded-pill px-4 shadow-sm">
+                        <i class="bi bi-clipboard2-check me-1"></i>Find a Property
+                    </a>
+
+                    {% if user.is_staff %}
+                    <a href="{% url 'staff_dashboard' %}" class="btn btn-sm btn-outline-secondary rounded-pill" title="Staff Lead CRM">
+                        <i class="bi bi-speedometer2"></i> CRM
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </nav>
+</header>

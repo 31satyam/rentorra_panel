@@ -1,0 +1,335 @@
+/* ==========================================================================
+   Rentorra Real Estate Lead-Generation Design System
+   Brand: Find Your Perfect Rental Home
+   ========================================================================== */
+
+:root {
+    --rentorra-navy: #0F172A;
+    --rentorra-slate: #1E293B;
+    --rentorra-teal: #0D9488;
+    --rentorra-teal-hover: #0F766E;
+    --rentorra-teal-light: #CCFBF1;
+    --rentorra-amber: #F59E0B;
+    --rentorra-surface: #F8FAFC;
+    --rentorra-border: #E2E8F0;
+    --rentorra-text-muted: #64748B;
+    --font-heading: 'Outfit', sans-serif;
+    --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+body {
+    font-family: var(--font-body);
+    color: #1E293B;
+    background-color: #FFFFFF;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, h5, h6, .brand-title {
+    font-family: var(--font-heading);
+    color: var(--rentorra-navy);
+}
+
+/* --------------------------------------------------------------------------
+   Branding & Colors
+   -------------------------------------------------------------------------- */
+.text-navy { color: var(--rentorra-navy) !important; }
+.bg-navy { background-color: var(--rentorra-navy) !important; }
+.bg-slate { background-color: var(--rentorra-slate) !important; }
+.bg-slate-dark { background-color: #0B1120 !important; }
+.bg-slate-card { background-color: rgba(255, 255, 255, 0.05) !important; }
+.text-light-muted { color: #94A3B8 !important; }
+
+.text-teal { color: var(--rentorra-teal) !important; }
+.bg-teal { background-color: var(--rentorra-teal) !important; }
+.border-teal { border-color: var(--rentorra-teal) !important; }
+
+.bg-teal-subtle { background-color: #E6FFFA !important; }
+.bg-amber { background-color: var(--rentorra-amber) !important; }
+.text-amber { color: var(--rentorra-amber) !important; }
+.bg-light-surface { background-color: var(--rentorra-surface) !important; }
+
+.text-gradient-teal {
+    background: linear-gradient(135deg, #2DD4BF 0%, #14B8A6 50%, #0D9488 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* --------------------------------------------------------------------------
+   Logo & Brand Element
+   -------------------------------------------------------------------------- */
+.brand-logo-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    background-color: var(--rentorra-teal);
+    color: #FFFFFF;
+    font-size: 1.25rem;
+}
+
+.brand-title {
+    font-size: 1.5rem;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+}
+
+/* --------------------------------------------------------------------------
+   Buttons
+   -------------------------------------------------------------------------- */
+.btn-teal {
+    background-color: var(--rentorra-teal);
+    color: #FFFFFF;
+    border: 1px solid var(--rentorra-teal);
+    transition: all 0.2s ease-in-out;
+}
+
+.btn-teal:hover, .btn-teal:focus {
+    background-color: var(--rentorra-teal-hover);
+    color: #FFFFFF;
+    border-color: var(--rentorra-teal-hover);
+    transform: translateY(-1px);
+}
+
+.btn-outline-teal {
+    color: var(--rentorra-teal);
+    border-color: var(--rentorra-teal);
+    background-color: transparent;
+    transition: all 0.2s ease-in-out;
+}
+
+.btn-outline-teal:hover {
+    background-color: var(--rentorra-teal);
+    color: #FFFFFF;
+    border-color: var(--rentorra-teal);
+}
+
+/* --------------------------------------------------------------------------
+   Navigation & Header
+   -------------------------------------------------------------------------- */
+.rentorra-navbar-wrapper {
+    transition: background-color 0.3s ease;
+}
+
+.navbar-nav .nav-link {
+    font-weight: 500;
+    color: #475569;
+    padding: 0.5rem 0.85rem;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+}
+
+.navbar-nav .nav-link:hover,
+.navbar-nav .nav-link.active {
+    color: var(--rentorra-teal);
+    background-color: rgba(13, 148, 136, 0.08);
+}
+
+/* --------------------------------------------------------------------------
+   Hero Section
+   -------------------------------------------------------------------------- */
+.hero-section {
+    background-color: var(--rentorra-navy);
+    background-image: radial-gradient(circle at 80% 20%, rgba(13, 148, 136, 0.35) 0%, transparent 50%),
+                      radial-gradient(circle at 10% 80%, rgba(30, 41, 59, 0.8) 0%, transparent 60%);
+}
+
+.backdrop-blur {
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+}
+
+.search-box-card {
+    background: #FFFFFF;
+    box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.15);
+}
+
+/* --------------------------------------------------------------------------
+   Property Card Design
+   -------------------------------------------------------------------------- */
+.property-card {
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    border: 1px solid rgba(226, 232, 240, 0.8) !important;
+}
+
+.property-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 16px 32px -8px rgba(15, 23, 42, 0.12) !important;
+}
+
+.property-card-img-wrapper {
+    height: 220px;
+    background-color: #F1F5F9;
+}
+
+.property-card-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+}
+
+.property-card:hover .property-card-img {
+    transform: scale(1.04);
+}
+
+.property-card-img-placeholder {
+    width: 100%;
+    height: 100%;
+}
+
+.property-card-price {
+    background: rgba(15, 23, 42, 0.85);
+    backdrop-filter: blur(6px);
+}
+
+.property-title-link:hover {
+    color: var(--rentorra-teal) !important;
+}
+
+/* --------------------------------------------------------------------------
+   Feature Cards & Hover Effects
+   -------------------------------------------------------------------------- */
+.feature-icon-wrapper {
+    width: 64px;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 16px;
+}
+
+.step-badge {
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.hover-lift {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.hover-lift:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px -5px rgba(13, 148, 136, 0.1) !important;
+}
+
+/* --------------------------------------------------------------------------
+   Image Gallery in Details
+   -------------------------------------------------------------------------- */
+.gallery-thumbnail {
+    opacity: 0.7;
+    border: 2px solid transparent;
+    transition: all 0.2s ease;
+}
+
+.gallery-thumbnail:hover, .gallery-thumbnail.active-thumb {
+    opacity: 1;
+    border-color: var(--rentorra-teal);
+    transform: scale(1.05);
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}
+
+/* --------------------------------------------------------------------------
+   Floating WhatsApp Button
+   -------------------------------------------------------------------------- */
+.floating-whatsapp-btn {
+    position: fixed;
+    bottom: 25px;
+    right: 25px;
+    z-index: 1040;
+    display: inline-flex;
+    align-items: center;
+    background-color: #25D366;
+    color: #FFFFFF;
+    text-decoration: none;
+    padding: 12px 18px;
+    border-radius: 50px;
+    font-size: 1.3rem;
+    box-shadow: 0 10px 25px rgba(37, 211, 102, 0.4);
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.floating-whatsapp-btn:hover {
+    background-color: #1EBE5D;
+    color: #FFFFFF;
+    transform: scale(1.06) translateY(-2px);
+    box-shadow: 0 14px 30px rgba(37, 211, 102, 0.5);
+}
+
+@media (max-width: 768px) {
+    .floating-whatsapp-btn {
+        bottom: 75px; /* Offset above sticky mobile bar */
+        right: 15px;
+        padding: 12px;
+        border-radius: 50%;
+    }
+}
+
+/* --------------------------------------------------------------------------
+   Footer Styles
+   -------------------------------------------------------------------------- */
+.footer-social-btn {
+    width: 36px;
+    height: 36px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.08);
+    color: #E2E8F0;
+    text-decoration: none;
+    transition: background 0.2s ease, color 0.2s ease;
+}
+
+.footer-social-btn:hover {
+    background: var(--rentorra-teal);
+    color: #FFFFFF;
+}
+
+.footer-links li {
+    margin-bottom: 8px;
+}
+
+.footer-links a {
+    color: #94A3B8;
+    text-decoration: none;
+    transition: color 0.2s ease;
+    font-size: 0.95rem;
+}
+
+.footer-links a:hover {
+    color: #2DD4BF;
+    padding-left: 4px;
+}
+
+/* --------------------------------------------------------------------------
+   Utility Classes
+   -------------------------------------------------------------------------- */
+.max-w-600 { max-width: 600px; }
+.max-w-700 { max-width: 700px; }
+.max-w-800 { max-width: 800px; }
+.min-vh-75 { min-height: 75vh; }
+.badge-number {
+    width: 28px;
+    height: 28px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+}
+
+.success-icon-wrapper {
+    width: 90px;
+    height: 90px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}

@@ -1,0 +1,616 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ meta_title }}{% endblock %}
+{% block meta_description %}{{ meta_description }}{% endblock %}
+
+{% block content %}
+
+<!-- Top Header Banner -->
+<section class="bg-slate py-4 py-lg-5 text-white">
+    <div class="container text-center max-w-700">
+
+        <span class="badge bg-teal rounded-pill px-3 py-1 fw-bold mb-2">
+            ZERO BROKERAGE HASSLE
+        </span>
+
+        <h1 class="h2 fw-bold text-white mb-2">
+            Submit Your Rental Requirement
+        </h1>
+
+        <p class="text-light-muted mb-0">
+            Tell us your preferred location, budget, and configuration.
+            Our local rental advisors will match you with verified homes within hours.
+        </p>
+
+    </div>
+</section>
+
+
+<!-- Requirement Form Section -->
+<section class="py-5 bg-light-surface">
+
+    <div class="container">
+
+        <div class="row justify-content-center">
+
+            <div class="col-lg-9 col-xl-8">
+
+                <div class="card border-0 shadow-lg rounded-4 p-4 p-md-5 bg-white">
+
+                    <!-- Django Messages -->
+                    {% if messages %}
+                        <div class="mb-4">
+
+                            {% for message in messages %}
+
+                                <div class="alert
+                                    {% if message.tags == 'error' %}
+                                        alert-danger
+                                    {% elif message.tags == 'success' %}
+                                        alert-success
+                                    {% elif message.tags == 'info' %}
+                                        alert-info
+                                    {% elif message.tags == 'warning' %}
+                                        alert-warning
+                                    {% else %}
+                                        alert-info
+                                    {% endif %}
+                                    alert-dismissible fade show rounded-3"
+                                    role="alert">
+
+                                    {% if message.tags == 'error' %}
+                                        <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                                    {% elif message.tags == 'success' %}
+                                        <i class="bi bi-check-circle-fill me-2"></i>
+                                    {% elif message.tags == 'warning' %}
+                                        <i class="bi bi-exclamation-circle-fill me-2"></i>
+                                    {% else %}
+                                        <i class="bi bi-info-circle-fill me-2"></i>
+                                    {% endif %}
+
+                                    {{ message }}
+
+                                    <button type="button"
+                                            class="btn-close"
+                                            data-bs-dismiss="alert"
+                                            aria-label="Close">
+                                    </button>
+
+                                </div>
+
+                            {% endfor %}
+
+                        </div>
+                    {% endif %}
+
+
+                    <!-- Form Level Errors -->
+                    {% if form.non_field_errors %}
+
+                        <div class="alert alert-danger rounded-3 mb-4">
+
+                            <div class="fw-bold mb-2">
+                                <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                                Please correct the following:
+                            </div>
+
+                            {% for error in form.non_field_errors %}
+                                <div class="small">
+                                    {{ error }}
+                                </div>
+                            {% endfor %}
+
+                        </div>
+
+                    {% endif %}
+
+
+                    <form action="{% url 'find_property' %}"
+                          method="POST"
+                          id="findPropertyRequirementForm"
+                          novalidate>
+
+                        {% csrf_token %}
+
+
+                        <!-- Anti-spam Honeypot Field -->
+                        <input type="text"
+                               name="website_url_hp"
+                               style="display:none !important;"
+                               tabindex="-1"
+                               autocomplete="off">
+
+
+                        <!-- ========================================= -->
+                        <!-- SECTION 1: PROPERTY REQUIREMENT -->
+                        <!-- ========================================= -->
+
+                        <div class="mb-4">
+
+                            <div class="d-flex align-items-center mb-3">
+
+                                <span class="badge-number bg-teal text-white rounded-circle me-2 fw-bold">
+                                    1
+                                </span>
+
+                                <h2 class="h5 fw-bold text-navy mb-0">
+                                    Property Requirement
+                                </h2>
+
+                            </div>
+
+
+                            <div class="row g-3">
+
+
+                                <!-- Looking For -->
+                                <div class="col-md-6">
+
+                                    <label class="form-label small fw-bold text-muted">
+                                        Looking For
+                                        <span class="text-danger">*</span>
+                                    </label>
+
+                                    {{ form.looking_for }}
+
+                                    {% for error in form.looking_for.errors %}
+                                        <div class="text-danger small mt-1">
+                                            <i class="bi bi-exclamation-circle me-1"></i>
+                                            {{ error }}
+                                        </div>
+                                    {% endfor %}
+
+                                </div>
+
+
+                                <!-- Property Type -->
+                                <div class="col-md-6">
+
+                                    <label class="form-label small fw-bold text-muted">
+                                        Property Type
+                                    </label>
+
+                                    {{ form.property_type }}
+
+                                    {% for error in form.property_type.errors %}
+                                        <div class="text-danger small mt-1">
+                                            <i class="bi bi-exclamation-circle me-1"></i>
+                                            {{ error }}
+                                        </div>
+                                    {% endfor %}
+
+                                </div>
+
+
+                                <!-- BHK -->
+                                <div class="col-md-6">
+
+                                    <label class="form-label small fw-bold text-muted">
+                                        BHK Configuration
+                                        <span class="text-danger">*</span>
+                                    </label>
+
+                                    {{ form.bhk }}
+
+                                    {% for error in form.bhk.errors %}
+                                        <div class="text-danger small mt-1">
+                                            <i class="bi bi-exclamation-circle me-1"></i>
+                                            {{ error }}
+                                        </div>
+                                    {% endfor %}
+
+                                </div>
+
+
+                                <!-- Move In Date -->
+                                <div class="col-md-6">
+
+                                    <label class="form-label small fw-bold text-muted">
+                                        Preferred Move-in Date
+                                    </label>
+
+                                    {{ form.move_in_date }}
+
+                                    {% for error in form.move_in_date.errors %}
+                                        <div class="text-danger small mt-1">
+                                            <i class="bi bi-exclamation-circle me-1"></i>
+                                            {{ error }}
+                                        </div>
+                                    {% endfor %}
+
+                                </div>
+
+
+                                <!-- City -->
+                                <div class="col-md-6">
+
+                                    <label class="form-label small fw-bold text-muted">
+                                        Preferred City
+                                        <span class="text-danger">*</span>
+                                    </label>
+
+                                    {{ form.city }}
+
+                                    {% for error in form.city.errors %}
+                                        <div class="text-danger small mt-1">
+                                            <i class="bi bi-exclamation-circle me-1"></i>
+                                            {{ error }}
+                                        </div>
+                                    {% endfor %}
+
+                                </div>
+
+
+                                <!-- Preferred Area -->
+                                <div class="col-md-6">
+
+                                    <label class="form-label small fw-bold text-muted">
+                                        Preferred Area / Sector
+                                    </label>
+
+                                    {{ form.preferred_area }}
+
+                                    {% for error in form.preferred_area.errors %}
+                                        <div class="text-danger small mt-1">
+                                            <i class="bi bi-exclamation-circle me-1"></i>
+                                            {{ error }}
+                                        </div>
+                                    {% endfor %}
+
+                                </div>
+
+
+                                <!-- Minimum Budget -->
+                                <div class="col-md-6">
+
+                                    <label class="form-label small fw-bold text-muted">
+                                        Minimum Budget (₹/month)
+                                    </label>
+
+                                    {{ form.min_budget }}
+
+                                    {% for error in form.min_budget.errors %}
+                                        <div class="text-danger small mt-1">
+                                            <i class="bi bi-exclamation-circle me-1"></i>
+                                            {{ error }}
+                                        </div>
+                                    {% endfor %}
+
+                                </div>
+
+
+                                <!-- Maximum Budget -->
+                                <div class="col-md-6">
+
+                                    <label class="form-label small fw-bold text-muted">
+                                        Maximum Budget (₹/month)
+                                    </label>
+
+                                    {{ form.max_budget }}
+
+                                    {% for error in form.max_budget.errors %}
+                                        <div class="text-danger small mt-1">
+                                            <i class="bi bi-exclamation-circle me-1"></i>
+                                            {{ error }}
+                                        </div>
+                                    {% endfor %}
+
+                                </div>
+
+
+                                <!-- Furnishing -->
+                                <div class="col-md-12">
+
+                                    <label class="form-label small fw-bold text-muted">
+                                        Furnishing Preference
+                                    </label>
+
+                                    {{ form.furnishing }}
+
+                                    {% for error in form.furnishing.errors %}
+                                        <div class="text-danger small mt-1">
+                                            <i class="bi bi-exclamation-circle me-1"></i>
+                                            {{ error }}
+                                        </div>
+                                    {% endfor %}
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <hr class="my-4">
+
+
+                        <!-- ========================================= -->
+                        <!-- SECTION 2: CONTACT INFORMATION -->
+                        <!-- ========================================= -->
+
+                        <div class="mb-4">
+
+                            <div class="d-flex align-items-center mb-3">
+
+                                <span class="badge-number bg-teal text-white rounded-circle me-2 fw-bold">
+                                    2
+                                </span>
+
+                                <h2 class="h5 fw-bold text-navy mb-0">
+                                    Contact Information
+                                </h2>
+
+                            </div>
+
+
+                            <div class="row g-3">
+
+
+                                <!-- Name -->
+                                <div class="col-md-6">
+
+                                    <label class="form-label small fw-bold text-muted">
+                                        Your Full Name
+                                        <span class="text-danger">*</span>
+                                    </label>
+
+                                    {{ form.name }}
+
+                                    {% for error in form.name.errors %}
+                                        <div class="text-danger small mt-1">
+                                            <i class="bi bi-exclamation-circle me-1"></i>
+                                            {{ error }}
+                                        </div>
+                                    {% endfor %}
+
+                                </div>
+
+
+                                <!-- Phone -->
+                                <div class="col-md-6">
+
+                                    <label class="form-label small fw-bold text-muted">
+                                        10-Digit Mobile Number
+                                        <span class="text-danger">*</span>
+                                    </label>
+
+                                    {{ form.phone }}
+
+                                    {% for error in form.phone.errors %}
+                                        <div class="text-danger small mt-1">
+                                            <i class="bi bi-exclamation-circle me-1"></i>
+                                            {{ error }}
+                                        </div>
+                                    {% endfor %}
+
+                                </div>
+
+
+                                <!-- Email -->
+                                <div class="col-md-6">
+
+                                    <label class="form-label small fw-bold text-muted">
+                                        Email Address (Optional)
+                                    </label>
+
+                                    {{ form.email }}
+
+                                    {% for error in form.email.errors %}
+                                        <div class="text-danger small mt-1">
+                                            <i class="bi bi-exclamation-circle me-1"></i>
+                                            {{ error }}
+                                        </div>
+                                    {% endfor %}
+
+                                </div>
+
+
+                                <!-- WhatsApp -->
+                                <div class="col-md-6">
+
+                                    <label class="form-label small fw-bold text-muted">
+                                        WhatsApp Number (Optional)
+                                    </label>
+
+                                    {{ form.whatsapp_number }}
+
+                                    {% for error in form.whatsapp_number.errors %}
+                                        <div class="text-danger small mt-1">
+                                            <i class="bi bi-exclamation-circle me-1"></i>
+                                            {{ error }}
+                                        </div>
+                                    {% endfor %}
+
+                                </div>
+
+
+                                <!-- Preferred Contact -->
+                                <div class="col-md-12">
+
+                                    <label class="form-label small fw-bold text-muted">
+                                        Preferred Contact Method
+                                    </label>
+
+                                    {{ form.preferred_contact_method }}
+
+                                    {% for error in form.preferred_contact_method.errors %}
+                                        <div class="text-danger small mt-1">
+                                            <i class="bi bi-exclamation-circle me-1"></i>
+                                            {{ error }}
+                                        </div>
+                                    {% endfor %}
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <hr class="my-4">
+
+
+                        <!-- ========================================= -->
+                        <!-- SECTION 3: ADDITIONAL INFORMATION -->
+                        <!-- ========================================= -->
+
+                        <div class="mb-4">
+
+                            <div class="d-flex align-items-center mb-3">
+
+                                <span class="badge-number bg-teal text-white rounded-circle me-2 fw-bold">
+                                    3
+                                </span>
+
+                                <h2 class="h5 fw-bold text-navy mb-0">
+                                    Additional Preferences
+                                </h2>
+
+                            </div>
+
+
+                            <div class="mb-3">
+
+                                <label class="form-label small fw-bold text-muted">
+                                    Message / Specific Requirements
+                                </label>
+
+                                {{ form.message }}
+
+                                {% for error in form.message.errors %}
+                                    <div class="text-danger small mt-1">
+                                        <i class="bi bi-exclamation-circle me-1"></i>
+                                        {{ error }}
+                                    </div>
+                                {% endfor %}
+
+                                <div class="form-text">
+                                    e.g. Need dedicated car parking, family or bachelor friendly,
+                                    balcony with open view, pet-friendly society.
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- ========================================= -->
+                        <!-- TRUST MESSAGE -->
+                        <!-- ========================================= -->
+
+                        <div class="p-3 bg-light rounded-3 mb-4 d-flex align-items-start">
+
+                            <i class="bi bi-shield-check text-success fs-4 me-2 mt-0"></i>
+
+                            <span class="small text-muted">
+                                By submitting, you agree to receive personalized rental
+                                recommendations and call/WhatsApp updates from Rentorra specialists.
+                                We respect your privacy and never sell user data.
+                            </span>
+
+                        </div>
+
+
+                        <!-- ========================================= -->
+                        <!-- SUBMIT -->
+                        <!-- ========================================= -->
+
+                        <div class="d-grid gap-2">
+
+                            <button type="submit"
+                                    class="btn btn-teal btn-lg rounded-pill fw-bold py-3 shadow">
+
+                                <i class="bi bi-send-fill me-2"></i>
+                                Submit Property Requirement
+
+                            </button>
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ========================================= -->
+<!-- ERROR STYLING -->
+<!-- ========================================= -->
+
+<style>
+
+    /*
+     * Highlight invalid Django form fields.
+     * This works with Django's default "errorlist" generated
+     * through the BoundField errors.
+     */
+
+    input.is-invalid,
+    select.is-invalid,
+    textarea.is-invalid {
+        border-color: #dc3545 !important;
+        box-shadow: 0 0 0 0.15rem rgba(220, 53, 69, 0.10);
+    }
+
+    .text-danger.small {
+        line-height: 1.4;
+    }
+
+</style>
+
+
+<!-- ========================================= -->
+<!-- ADD is-invalid CLASS AUTOMATICALLY -->
+<!-- ========================================= -->
+
+<script>
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    const form = document.getElementById("findPropertyRequirementForm");
+
+    if (!form) {
+        return;
+    }
+
+    /*
+     * Find fields that have Django validation errors.
+     *
+     * Django does not automatically add Bootstrap's
+     * is-invalid class, so we add it based on the
+     * error message rendered next to each field.
+     */
+
+    const errorContainers = form.querySelectorAll(".text-danger.small");
+
+    errorContainers.forEach(function (errorContainer) {
+
+        const fieldContainer = errorContainer.closest(".col-md-6, .col-md-12");
+
+        if (!fieldContainer) {
+            return;
+        }
+
+        const field = fieldContainer.querySelector(
+            "input, select, textarea"
+        );
+
+        if (field) {
+            field.classList.add("is-invalid");
+        }
+
+    });
+
+});
+
+</script>
+
+{% endblock %}

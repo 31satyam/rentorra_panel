@@ -1,0 +1,115 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ meta_title }}{% endblock %}
+{% block meta_description %}{{ meta_description }}{% endblock %}
+
+{% block content %}
+<!-- Header Banner -->
+<section class="bg-slate py-5 text-white">
+    <div class="container text-center max-w-700">
+        <span class="badge bg-teal rounded-pill px-3 py-1 fw-bold mb-2">ABOUT US</span>
+        <h1 class="display-5 fw-bold text-white mb-3">Redefining Urban Rental Living</h1>
+        <p class="text-light-muted lead mb-0">
+            Rentorra was founded with a singular purpose: to make finding and renting a home as transparent, joyful, and seamless as possible.
+        </p>
+    </div>
+</section>
+
+<section class="py-5 bg-white">
+    <div class="container py-2">
+        <div class="row align-items-center g-5 mb-5">
+            <div class="col-lg-6">
+                <span class="badge bg-teal-subtle text-teal fw-bold px-3 py-1 rounded-pill mb-2">OUR MISSION</span>
+                <h2 class="h2 fw-bold text-navy mb-3">Eliminating Chaos in Home Renting</h2>
+                <p class="text-secondary mb-3">
+                    Urban real-estate renting in India has historically been plagued by misleading listings, spam broker calls, high non-negotiable fees, and lack of transparency. Tenants spend weeks visiting apartments that do not match online photos.
+                </p>
+                <p class="text-secondary mb-4">
+                    <strong>Rentorra solves this.</strong> We curate authentic 1 BHK, 2 BHK, 3 BHK, 4 BHK apartments, flats, and villas across Delhi NCR, Bengaluru, and leading metros. Every home undergoes visual inspection, pricing verification, and landlord credentialing before entering our active directory.
+                </p>
+                <div class="d-flex gap-3">
+                    <div class="p-3 bg-light-surface rounded-3 border">
+                        <h3 class="h4 fw-bold text-teal mb-0">100%</h3>
+                        <span class="small text-muted">Physically Verified</span>
+                    </div>
+                    <div class="p-3 bg-light-surface rounded-3 border">
+                        <h3 class="h4 fw-bold text-navy mb-0">15 Min</h3>
+                        <span class="small text-muted">Lead Response</span>
+                    </div>
+                    <div class="p-3 bg-light-surface rounded-3 border">
+                        <h3 class="h4 fw-bold text-teal mb-0">Zero</h3>
+                        <span class="small text-muted">Misleading Ads</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-6">
+                <div class="p-4 p-md-5 bg-light-surface rounded-4 shadow-sm border border-light-subtle">
+                    <h3 class="h4 fw-bold text-navy mb-3">The Rentorra Pledge</h3>
+                    <ul class="list-unstyled mb-0">
+                        <li class="d-flex align-items-start mb-3">
+                            <i class="bi bi-check-circle-fill text-teal fs-5 me-2 mt-1"></i>
+                            <div>
+                                <strong>Direct Specialist Support</strong>
+                                <p class="text-muted small mb-0">No unsolicited calls from multiple third-party agents. One dedicated Rentorra advisor guides your full journey.</p>
+                            </div>
+                        </li>
+                        <li class="d-flex align-items-start mb-3">
+                            <i class="bi bi-check-circle-fill text-teal fs-5 me-2 mt-1"></i>
+                            <div>
+                                <strong>Fair Market Pricing</strong>
+                                <p class="text-muted small mb-0">All rents and security deposits are cross-checked with prevailing society benchmarks to prevent price inflation.</p>
+                            </div>
+                        </li>
+                        <li class="d-flex align-items-start">
+                            <i class="bi bi-check-circle-fill text-teal fs-5 me-2 mt-1"></i>
+                            <div>
+                                <strong>Instant WhatsApp Accessibility</strong>
+                                <p class="text-muted small mb-0">Schedule site visits, request video walk-throughs, and ask society questions on WhatsApp anytime.</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Vision Section -->
+        <div class="row text-center mt-5">
+            <div class="col-md-4 mb-4">
+                <div class="card h-100 p-4 border-0 rounded-4 shadow-xs bg-light-surface">
+                    <div class="feature-icon-wrapper bg-teal-subtle text-teal mx-auto mb-3">
+                        <i class="bi bi-bullseye fs-3"></i>
+                    </div>
+                    <h3 class="h5 fw-bold text-navy mb-2">Our Vision</h3>
+                    <p class="text-muted small mb-0">
+                        To become India's most trusted, tenant-first residential leasing platform where every professional and family finds a home in days, not months.
+                    </p>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="card h-100 p-4 border-0 rounded-4 shadow-xs bg-light-surface">
+                    <div class="feature-icon-wrapper bg-blue-subtle text-primary mx-auto mb-3">
+                        <i class="bi bi-shield-lock fs-3"></i>
+                    </div>
+                    <h3 class="h5 fw-bold text-navy mb-2">Uncompromising Trust</h3>
+                    <p class="text-muted small mb-0">
+                        We respect your time and data. We never share customer contact information with unverified third parties or spam directories.
+                    </p>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="card h-100 p-4 border-0 rounded-4 shadow-xs bg-light-surface">
+                    <div class="feature-icon-wrapper bg-green-subtle text-success mx-auto mb-3">
+                        <i class="bi bi-people fs-3"></i>
+                    </div>
+                    <h3 class="h5 fw-bold text-navy mb-2">Community Driven</h3>
+                    <p class="text-muted small mb-0">
+                        We build lasting tenant relationships, offering post move-in support and guidance throughout the duration of your lease.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,41 @@
+{% if properties.has_other_pages %}
+<nav aria-label="Properties pagination" class="mt-4">
+    <ul class="pagination justify-content-center">
+        {% if properties.has_previous %}
+        <li class="page-item">
+            <a class="page-link rounded-pill me-1" href="?page={{ properties.previous_page_number }}{% if querystring %}&{{ querystring }}{% endif %}" aria-label="Previous">
+                <i class="bi bi-chevron-left"></i> Previous
+            </a>
+        </li>
+        {% else %}
+        <li class="page-item disabled">
+            <span class="page-link rounded-pill me-1"><i class="bi bi-chevron-left"></i> Previous</span>
+        </li>
+        {% endif %}
+
+        {% for i in properties.paginator.page_range %}
+            {% if properties.number == i %}
+            <li class="page-item active" aria-current="page">
+                <span class="page-link rounded-pill mx-1 bg-teal border-teal text-white">{{ i }}</span>
+            </li>
+            {% elif i > properties.number|add:'-3' and i < properties.number|add:'3' %}
+            <li class="page-item">
+                <a class="page-link rounded-pill mx-1" href="?page={{ i }}{% if querystring %}&{{ querystring }}{% endif %}">{{ i }}</a>
+            </li>
+            {% endif %}
+        {% endfor %}
+
+        {% if properties.has_next %}
+        <li class="page-item">
+            <a class="page-link rounded-pill ms-1" href="?page={{ properties.next_page_number }}{% if querystring %}&{{ querystring }}{% endif %}" aria-label="Next">
+                Next <i class="bi bi-chevron-right"></i>
+            </a>
+        </li>
+        {% else %}
+        <li class="page-item disabled">
+            <span class="page-link rounded-pill ms-1">Next <i class="bi bi-chevron-right"></i></span>
+        </li>
+        {% endif %}
+    </ul>
+</nav>
+{% endif %}

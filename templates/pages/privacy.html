@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% block title %}{{ meta_title }}{% endblock %}
+
+{% block content %}
+<section class="bg-slate py-4 text-white">
+    <div class="container">
+        <h1 class="h2 fw-bold text-white mb-1">Privacy Policy</h1>
+        <p class="text-light-muted small mb-0">Effective Date: January 1, 2026 &bull; Rentorra Inc.</p>
+    </div>
+</section>
+
+<section class="py-5 bg-white">
+    <div class="container max-w-800">
+        <div class="content-text text-secondary lh-lg">
+            <h2 class="h5 fw-bold text-navy mt-4 mb-2">1. Overview</h2>
+            <p>At Rentorra ("we", "us", or "our"), accessible from rentorra.com, protecting the privacy of our visitors and home-seeking clients is one of our top priorities. This Privacy Policy outlines the types of information we collect, how it is utilized, and your choices regarding your personal data.</p>
+
+            <h2 class="h5 fw-bold text-navy mt-4 mb-2">2. Information We Collect</h2>
+            <p>We collect personal information that you voluntarily provide when submitting a property requirement, scheduling a site visit, contacting us via phone or WhatsApp, or registering an enquiry. This includes:</p>
+            <ul>
+                <li>Full Name and Contact Mobile / Phone Number</li>
+                <li>Email address (optional)</li>
+                <li>Preferred rental locations, BHK preferences, and monthly budget parameters</li>
+                <li>Technical logs: IP address, device type, browser information, and referral UTM campaign source tags</li>
+            </ul>
+
+            <h2 class="h5 fw-bold text-navy mt-4 mb-2">3. How We Use Your Data</h2>
+            <p>The primary purpose of data collection is lead fulfillment and tenant advisory:</p>
+            <ul>
+                <li>To coordinate physical site visits with verified property owners and managers.</li>
+                <li>To contact you through phone, SMS, or WhatsApp regarding matching rental listings.</li>
+                <li>To prevent fraudulent submissions, spam, or duplicate automated inquiries.</li>
+                <li>To measure marketing channel effectiveness (Google, Facebook, Instagram ads).</li>
+            </ul>
+
+            <h2 class="h5 fw-bold text-navy mt-4 mb-2">4. Zero Third-Party Selling Guarantee</h2>
+            <p>Rentorra does not sell, rent, or trade user data to unaffiliated third-party marketing companies, telemarketers, or financial brokers.</p>
+
+            <h2 class="h5 fw-bold text-navy mt-4 mb-2">5. Contact Us</h2>
+            <p>If you have questions about this policy or wish to request deletion of your requirement profile, please email our data protection desk at <a href="mailto:{{ COMPANY_EMAIL }}">{{ COMPANY_EMAIL }}</a>.</p>
+        </div>
+    </div>
+</section>
+{% endblock %}
