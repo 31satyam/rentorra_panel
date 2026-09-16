@@ -1,5 +1,5 @@
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import path, include, re_path
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib.sitemaps.views import sitemap
@@ -7,6 +7,7 @@ from django.contrib.sitemaps import Sitemap
 from django.urls import reverse
 from apps.properties.models import Property, Location
 from apps.enquiries.views import find_property_view
+from django.views.static import serve
 
 # SEO Sitemaps
 class PropertySitemap(Sitemap):
@@ -71,10 +72,21 @@ urlpatterns = [
 ]
 
 # Static & Media serving during development
-urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-
+urlpatterns += [
+    re_path(
+        r'^media/(?P<path>.*)$',
+        serve,
+        {
+            'document_root': settings.MEDIA_ROOT,
+        },
+    ),
+]
+# Static files during development
 if settings.DEBUG:
-    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+    urlpatterns += static(
+        settings.STATIC_URL,
+        document_root=settings.STATIC_ROOT
+    )
 
 # Custom Error Handlers
 handler404 = 'apps.core.views.custom_404_view'
